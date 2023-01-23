@@ -67,10 +67,10 @@ const updateUser = asyncHandler(
         }
         console.log(id);
 
-        const user:unknown = await User.findById(id).exec();
+        const user:any = await User.findById(id).exec();
         if(!user) return res.status(400).json({message: "User not found"});
 
-        const duplicate:unknown = await User.findOne({username}).lean().exec();
+        const duplicate:any = await User.findOne({username}).lean().exec();
         if(duplicate && duplicate._id.toString() !== id) return res.status(409).json({message: "Username already exists"});
         user.username = username;
         user.roles = roles;
@@ -93,7 +93,7 @@ const deleteUser = asyncHandler(
         if(notes?.length) {
             return res.status(400).json({message:"User has assigned notes"});
         }
-        const user:unknown = await User.findById(id).exec();
+        const user:any = await User.findById(id).exec();
         if(!user) return res.status(400).json({message:"User not found"});
 
         await User.deleteOne(user);
